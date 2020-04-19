@@ -50,7 +50,30 @@ class _TakeImageState extends State<TakeImage> {
               child: Text("Upload Image"),
               onPressed: () {
                 UploadImage uploadImage = new UploadImage();
-                uploadImage.uploadImage(imageFile);
+                if (imageFile != null)
+                  uploadImage.uploadImage(imageFile);
+                else {
+                  showDialog<void>(
+                    context: context,
+//                    barrierDismissible: barrierDismissible,
+                    // false = user must tap button, true = tap outside dialog
+                    builder: (BuildContext dialogContext) {
+                      return AlertDialog(
+                        title: Text('Alert!'),
+                        content: Text('Please select an image.'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(dialogContext)
+                                  .pop(); // Dismiss alert dialog
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
             ),
           ],
