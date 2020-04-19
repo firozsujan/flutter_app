@@ -15,6 +15,8 @@ class UploadImage extends StatefulWidget {
 }
 
 class _UploadImageState extends State<UploadImage> {
+  String uploadImageAPI = "https://localhost:44379/uploadimage";
+
   @override
   Widget build(BuildContext context) {
     return Container();
@@ -25,7 +27,7 @@ class _UploadImageState extends State<UploadImage> {
     String base64Image = base64Encode(imageFileForUpload.readAsBytesSync());
     String fileName = imageFileForUpload.path.split("/").last;
 
-    http.post("uploadApi", body: {
+    http.post(uploadImageAPI, body: {
       "image": base64Image,
       "name": fileName,
     }).then((res) {
