@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/upload_image.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,23 +26,29 @@ class _TakeImageState extends State<TakeImage> {
             SizedBox(height: 20),
             decideImageView(),
             SizedBox(height: 30),
-            RaisedButton(
-              padding: const EdgeInsets.all(8.0),
-              textColor: Colors.white,
-              color: Colors.blue,
-              child: Text("Camera"),
-              onPressed: () {
-                openCamera();
-              },
-            ),
-            RaisedButton(
-              padding: const EdgeInsets.all(8.0),
-              textColor: Colors.white,
-              color: Colors.blue[800],
-              child: Text("Gallery"),
-              onPressed: () {
-                openGallery();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  padding: const EdgeInsets.all(8.0),
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  child: Text("Camera"),
+                  onPressed: () {
+                    openCamera();
+                  },
+                ),
+                SizedBox(width: 30),
+                RaisedButton(
+                  padding: const EdgeInsets.all(8.0),
+                  textColor: Colors.white,
+                  color: Colors.blue[800],
+                  child: Text("Gallery"),
+                  onPressed: () {
+                    openGallery();
+                  },
+                ),
+              ],
             ),
             RaisedButton(
               padding: const EdgeInsets.all(8.0),
@@ -59,11 +66,17 @@ class _TakeImageState extends State<TakeImage> {
                     // false = user must tap button, true = tap outside dialog
                     builder: (BuildContext dialogContext) {
                       return AlertDialog(
+                        backgroundColor: Colors.amber[100],
                         title: Text('Alert!'),
-                        content: Text('Please select an image.'),
+                        content:
+                            Text('Please pic an image from Camera or Gallery.'),
                         actions: <Widget>[
                           FlatButton(
-                            child: Text('Ok'),
+                            child: Text(
+                              'Ok',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            color: Colors.amber[200],
                             onPressed: () {
                               Navigator.of(dialogContext)
                                   .pop(); // Dismiss alert dialog
@@ -84,7 +97,7 @@ class _TakeImageState extends State<TakeImage> {
 
   openGallery() async {
     var picture = await ImagePicker.pickImage(
-        source: ImageSource.gallery, maxHeight: 200, maxWidth: double.infinity);
+        source: ImageSource.gallery, maxHeight: 200, maxWidth: 600);
     this.setState(() {
       imageFile = picture;
     });
@@ -92,7 +105,7 @@ class _TakeImageState extends State<TakeImage> {
 
   openCamera() async {
     var picture = await ImagePicker.pickImage(
-        source: ImageSource.camera, maxHeight: 200, maxWidth: 400);
+        source: ImageSource.camera, maxHeight: 200, maxWidth: 600);
     this.setState(() {
       imageFile = picture;
     });
@@ -103,7 +116,7 @@ class _TakeImageState extends State<TakeImage> {
       return Image.file(imageFile);
     else
       return Text(
-        "Please Select an image",
+        "Please pic an image",
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
       );
   }
